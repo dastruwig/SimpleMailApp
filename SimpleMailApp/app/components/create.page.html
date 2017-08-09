@@ -1,0 +1,62 @@
+<div style="font-family: sans-serif; text-align: left; position: absolute; left: 50%; transform: translateX(-50%)">
+    
+    <div *ngIf="!sending && !hasError && !sent">
+        
+        <div>Mail Service</div>
+        <div>
+            <select type="text" style="width: 400px;" [(ngModel)]="selectedService">
+                <option value="SendGrid">SendGrid</option>
+                <option value="MailGun">MailGun</option>
+            </select>
+        </div>
+        
+        <div>To (seperate multiple addresses with ;)</div>
+        <div><input type="text" class="formInput" [(ngModel)]="toAddress"/></div>
+        
+        <div>CC</div>
+        <div><input type="text"  class="formInput"  [(ngModel)]="ccAddress"/></div>
+        
+        <div>BCC</div>
+        <div><input type="text"  class="formInput"  [(ngModel)]="bccAddress"/></div>
+
+        <div>Subject</div>
+        <div><input type="text" class="formInput"  [(ngModel)]="subject"/></div>
+
+        <div>Message</div>
+        <div>
+            <textarea  class="formInput"   style="height: 200px;" (change)="onValueChangeEventHandler($event)"></textarea>
+        </div>
+        <button (click)="onSendClicked()">Send</button>
+        <button (click)="onCancelClicked()">Cancel</button>
+    </div>
+
+    <!-- Sending state message -->
+     <div *ngIf="sending" style="text-align: center">
+        
+        <img style="margin-top: 35px;" src="app/assets/interwind.gif"/>
+        <div>Sending....</div>
+        
+    </div>
+
+    <!--Success message -->
+     <div *ngIf="sent" style="text-align: center">
+        <img style="margin-top: 35px;" src="app/assets/check.png"/>
+        <h3  style="margin-bottom: 35px;">Message sent!</h3>
+        <button (click)="onCancelClicked()">OK</button>
+    </div>
+
+
+     <!--Error message -->
+     <div *ngIf="hasError" style="text-align: center">
+        
+        <img style="margin-top: 35px;" src="app/assets/error.png"/>
+        <div style="margin-bottom: 35px;">Oops... something went wrong. Message not sent!</div>
+        
+        <button (click)="onRetryClicked()">Retry</button>
+        <button (click)="onCancelClicked()">Cancel</button>
+    </div>
+
+
+</div>
+
+
