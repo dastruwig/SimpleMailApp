@@ -100,18 +100,6 @@ namespace SimpleMailApp.Services
                         // Strip out the name
                         name = Regex.Replace(x, "@.+", ""),
                         email = x
-                    }).ToArray(),
-                    cc = sendRequest.ToAddresses.Select(x => new MailAddressModel()
-                    {
-                        // Strip out the name
-                        name = Regex.Replace(x, "@.+", ""),
-                        email = x
-                    }).ToArray(),
-                    bcc = sendRequest.ToAddresses.Select(x => new MailAddressModel()
-                    {
-                        // Strip out the name
-                        name = Regex.Replace(x, "@.+", ""),
-                        email = x
                     }).ToArray()
                 }},
                 reply_to = new MailAddressModel
@@ -121,6 +109,28 @@ namespace SimpleMailApp.Services
                 },
 
             };
+
+            if (sendRequest.CcAddresses != null && sendRequest.CcAddresses.Any())
+            {
+                sendGridRequestData.personalizations[0].cc = sendRequest.CcAddresses.Select(x => new MailAddressModel()
+                    {
+                        // Strip out the name
+                        name = Regex.Replace(x, "@.+", ""),
+                        email = x
+                    })
+                    .ToArray();
+            }
+
+            if (sendRequest.BccAddresses != null && sendRequest.BccAddresses.Any())
+            {
+                sendGridRequestData.personalizations[0].bcc = sendRequest.BccAddresses.Select(x => new MailAddressModel()
+                    {
+                        // Strip out the name
+                        name = Regex.Replace(x, "@.+", ""),
+                        email = x
+                    })
+                    .ToArray();
+            }
 
             return sendGridRequestData;
         }
